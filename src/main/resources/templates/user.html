@@ -1,35 +1,30 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security</title>
+    <title>Spring Security Example</title>
 </head>
-<h1 th:text="'User, ' + ${user.name} + ', welcome spring boot security page!'"/>
-<br/><br/>
-<div>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Department</th>
-            <th>Salary</th>
-            <th>Operation</th>
-        </tr>
-
-        <tr th:each="user : ${user}">
-            <td th:text="${user.name}"/>
-            <td th:text="${user.surname}"/>
-            <td th:text="${user.department}"/>
-            <td th:text="${user.salary}"/>
-        </tr>
-    </table>
-    <br><br>
-    <li sec:authorize="isAuthenticated()" class="nav-item">
-    <form class="align-middle" th:action="@{/logout}" method="GET">
-        <div class="input-group-prepend">
-            <button class="btn btn-secondary btn-sm" type="submit">Выйти</button>
-        </div>
-    </form>
-    </li>
-</div>
+<body>
+<h1>Welcome to Spring Boot Security Page!</h1>
+<br>
+<br>
+<h2>Your id is:</h2>
+<td th:text="${LoggedUser.getId()}"/>
+<br>
+<br>
+<h2>Your name is:</h2>
+<td th:text="${LoggedUser.getName()}"/>
+<br>
+<br>
+<h2>Your surname is:</h2>
+<td th:text="${LoggedUser.getSurname()}"/>
+<br>
+<br>
+<br>
+<form  th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout">
+</form>
+<form  th:action="@{/admin}" method="get">
+    <input type="submit" value="Admin view (only for admins)">
+</form>
 </body>
 </html>

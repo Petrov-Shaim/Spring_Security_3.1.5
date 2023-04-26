@@ -3,46 +3,54 @@ package com.example.spring_security.entity;
 
 import javax.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "employees")
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "surname")
-    private String surname;
-    @Column(name = "password")
-    private String password;
-    @Column(name = "department")
-    private String department;
-    @Column(name = "salary")
-    private int salary;
+@Table(name = "users")
+public class User implements UserDetails  {
 
-    public User(String name, String surname, String password, String department, int salary) {
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.department = department;
-        this.salary = salary;
-    }
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column (name = "id")
+    private int id;
+    @Column (name = "username")
+    private String username;
+    @Column (name = "name")
+    private String name;
+    @Column (name = "surname")
+    private String surname;
+    @Column (name = "password")
+    private String password;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "users_roles"
+            , joinColumns = @JoinColumn(name = "User_id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
 
     public User() {
+
     }
 
-    public Long getId() {
+    public User(String username, String name, String surname, Set<Role> roles,Collection<?
+            extends GrantedAuthority> mapRolesToAuthorities) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.roles = roles;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,75 +66,71 @@ public class User implements UserDetails {
         return surname;
     }
 
+
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
-    }
-
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public void addRole (Role role) {
+        this.roles.add(role);
     }
 
 
 
-    @Override
     public String getPassword() {
         return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String getUsername() {
-        return name;
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

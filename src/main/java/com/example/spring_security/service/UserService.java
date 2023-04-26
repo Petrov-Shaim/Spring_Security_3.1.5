@@ -72,7 +72,6 @@ public class UserService implements UserDetailsService {
         userToBeUpdated.setPassword(user.getPassword());
         userToBeUpdated.setUsername(user.getUsername());
         userToBeUpdated.setRoles(user.getRoles());
-        //todo add repetition filter here
         return userToBeUpdated;
     }
 
@@ -90,7 +89,7 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
-    public boolean deleteUser(Integer userId) {//todo quarry?
+    public boolean deleteUser(Integer userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
             return true;

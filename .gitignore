@@ -34,4 +34,4 @@ build/
 .idea/
 HELP.md
 mvnw.cmd
-.mvn/
+.mvn/wrapper

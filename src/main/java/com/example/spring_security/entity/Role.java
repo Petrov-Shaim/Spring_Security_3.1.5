@@ -1,42 +1,18 @@
 package com.example.spring_security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "t_roles")
-public class Role implements GrantedAuthority { //todo
-
+@Table(name = "roles")
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
-    @Transient
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
 
     public Role() {
-
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role(Integer id) {
-        this.id = id;
-    }
-
-    public Role(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-    @Override
-    public String toString() {//todo do I need that?
-        return this.name;
     }
 
     public Integer getId() {
@@ -47,6 +23,10 @@ public class Role implements GrantedAuthority { //todo
         this.id = id;
     }
 
+    public Role(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -54,17 +34,47 @@ public class Role implements GrantedAuthority { //todo
     public void setName(String name) {
         this.name = name;
     }
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     @Override
     public String getAuthority() {
         return getName();
+    }
+
+    @Override
+    public String toString() {
+        String role = getName();
+        if (role.equals("ROLE_ADMIN")) {
+            return "ADMIN";
+        }
+        if (role.equals("ROLE_USER")) {
+            return "USER";
+        }
+        return role;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Role other = (Role) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 }
 

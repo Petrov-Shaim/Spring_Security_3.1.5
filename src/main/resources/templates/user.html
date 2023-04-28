@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>User</title>
 </head>
 <body>
-<h1>Welcome to Spring Boot Security Page!</h1>
-<br>
-<br>
-<h2>Your id is:</h2>
-<td th:text="${LoggedUser.getId()}"/>
-<br>
-<br>
-<h2>Your name is:</h2>
-<td th:text="${LoggedUser.getName()}"/>
-<br>
-<br>
-<h2>Your surname is:</h2>
-<td th:text="${LoggedUser.getSurname()}"/>
-<br>
-<br>
-<br>
-<form  th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout">
-</form>
-<form  th:action="@{/admin}" method="get">
-    <input type="submit" value="Admin view (only for admins)">
-</form>
+<a href="/logout">LOGOUT</a>
+<br/>
+<br/>
+<br/>
+<h1>User Page</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>E-mail</th>
+        <th>Role</th>
+
+    </tr>
+    <tr th:object="${usera}">
+        <td th:utext="${usera.id}">ID</td>
+        <td th:utext="${usera.firstName}">First Name</td>
+        <td th:utext="${usera.lastname}">Last Name</td>
+        <td th:utext="${usera.age}">Age</td>
+        <td th:utext="${usera.email}">E-mail</td>
+        <td th:utext="${usera.roleToString()}"></td>
+
+    </tr>
+</table>
+
+
+
 </body>
 </html>

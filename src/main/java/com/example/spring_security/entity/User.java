@@ -20,21 +20,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     private String firstName;
-
 
     private String lastname;
 
-
     private int age;
-
-
+    @Column(name = "email", unique = true)
     private String email;
 
-
     private String password;
-
 
     @Fetch(FetchMode.JOIN)
     @ManyToMany
@@ -42,7 +36,6 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-
 
     public User() {
     }

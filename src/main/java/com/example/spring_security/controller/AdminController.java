@@ -3,6 +3,7 @@ package com.example.spring_security.controller;
 import com.example.spring_security.dao.RoleRepository;
 import com.example.spring_security.entity.Role;
 import com.example.spring_security.entity.User;
+import com.example.spring_security.service.RoleService;
 import com.example.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,14 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    private final UserService userService;
+    private final RoleService roleService;
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleRepository roleRepository;
+    public AdminController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @GetMapping
     public String userPage(Model model) {
@@ -29,7 +34,7 @@ public class AdminController {
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        Set<Role> roles = new HashSet<>(roleRepository.findAll());
+        Set<Role> roles = new HashSet<>(roleService.getAllRoles());
         model.addAttribute("allroles", roles);
         return "/new";
     }
@@ -43,7 +48,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.show(id));
-        Set<Role> roles = new HashSet<>(roleRepository.findAll());
+        Set<Role> roles = new HashSet<>(roleService.getAllRoles());
         model.addAttribute("allroles", roles);
         return "/edit";
     }

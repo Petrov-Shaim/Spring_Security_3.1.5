@@ -1,6 +1,5 @@
 package com.example.spring_security.controller;
 
-import com.example.spring_security.dao.RoleRepository;
 import com.example.spring_security.entity.User;
 import com.example.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @GetMapping()
     public String oneUserPage(Principal principal, Model model) {

@@ -10,4 +10,5 @@ public interface UserService{
     void update(User updatedUser);
     void delete(int id);
     User findUsersByEmail(String username);
+    void updateUser(User updateduser, int id);
 }

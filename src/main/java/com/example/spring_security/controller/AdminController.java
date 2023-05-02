@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,10 +27,17 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping
-    public String userPage(Model model) {
+    @GetMapping()
+    public String userPage2(Principal principal, Model model) {
+
+        model.addAttribute("newUser", new User());
+        Set<Role> roles = new HashSet<>(roleService.getAllRoles());
+        model.addAttribute("allRoles", roles);
+        User user = userService.findUsersByEmail(principal.getName());
+        model.addAttribute("usera", user);
+
         model.addAttribute("users", userService.listUsers());
-        return "users";
+        return "adminpage";
     }
 
     @GetMapping("/new")
@@ -45,17 +54,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.show(id));
-        Set<Role> roles = new HashSet<>(roleService.getAllRoles());
-        model.addAttribute("allroles", roles);
-        return "/edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user) {
-        userService.update(user);
+    @PatchMapping(value = "/test2/{id}")
+    public String updateUser(@ModelAttribute("user") User updatedUser, @PathVariable("id") int id) {
+        userService.updateUser(updatedUser, id);
         return "redirect:/admin";
     }
 

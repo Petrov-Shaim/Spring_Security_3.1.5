@@ -49,7 +49,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public void update(User updatedUser) {
 
         updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-
         userRepository.save(updatedUser);
     }
 
@@ -60,6 +59,20 @@ public class UserServiceImp implements UserService, UserDetailsService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    @Transactional
+    public void updateUser(User updatedUser, int id) {
+        User existingUser = show(id);
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setLastname(updatedUser.getLastname());
+        existingUser.setAge(updatedUser.getAge());
+        existingUser.setRoles(updatedUser.getRoles());
+        if (!updatedUser.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+        userRepository.save(existingUser);
+    }
 
 
     @Override

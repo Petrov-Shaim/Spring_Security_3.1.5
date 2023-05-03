@@ -5,17 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-
 
     <title>Hello, world!</title>
 </head>
 <body>
 
-<!--ЗАГОЛОВОК-->
 <header>
 
     <div style="height: 60px" class="container-fluid  bg-dark text-white ">
@@ -33,20 +29,16 @@
             <div class="col-1">
                 <form th:action="@{/logout}" method="post">
                     <input class="btn btn-outline-secondary" type="submit" value="Logout"/>
+                </form>
             </div>
         </div>
     </div>
 </header>
 <!--ОСНОВА-->
 
-
-
-
-
-
-
 <div class="container-fluid ">
     <div style="height: calc(100vh - 60px)" class="row">
+
         <div class="col-2 py-4 px-0">
             <ul class="nav nav-pills nav-fill flex-column">
                 <li class="nav-item">
@@ -55,9 +47,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-left" data-toggle="tab" href="#userPanel">User</a>
                 </li>
-
             </ul>
-
         </div>
 
         <div style="background-color: rgb(248,249,250)" class="col-10 m-0 py-4 px-5">
@@ -110,7 +100,6 @@
                                 <td th:utext="${user.roleToString()}"></td>
                                 <td>
 
-
                                     <!-- Кнопка, которая открывает модальное окно EDIT -->
                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                             th:data-target="${'#editUser' + user.id}">
@@ -133,8 +122,6 @@
                                                         th:object="${user}">
                                                 <!-- Основное содержимое модального окна EDIT -->
                                                 <div class="modal-body">
-
-                                                        <!--                                                        th:id="'editForm' + ${user.id}"   я не знаю что это пока что-->
                                                         <div style="margin-left: auto; margin-right: auto"
                                                              class="form-group col-6 text-center">
 
@@ -146,8 +133,7 @@
                                                                 <input class="form-control" th:type="text"
                                                                        th:name="firstName" id="editName"
                                                                        placeholder="Username"
-                                                                       th:value="${user.firstName}" required
-                                                                >
+                                                                       th:value="${user.firstName}" required>
                                                             </label>
 
                                                             <b><label for="editLastName">First Name</label></b>
@@ -177,21 +163,7 @@
                                                                     ></option>
                                                                 </select>
                                                             </p>
-
-
-
-
-
-
                                                         </div>
-
-
-
-
-
-
-
-
                                                 </div>
 
                                                 <!-- Футер модального окна EDIT -->
@@ -199,15 +171,11 @@
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                     <input class="btn btn-primary" type="submit"
                                                            value="Edit"/>
-                                                    <!--                                                    th:attr="form='editForm' + ${user.id}"-->
                                                 </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-
-
-
                                 </td>
 
                                 <td>
@@ -230,7 +198,6 @@
                                                 <!-- Основное содержимое модального окна DELETE -->
                                                 <div class="modal-body">
                                                     <form>
-
                                                         <div style="margin-left: auto; margin-right: auto"
                                                              class="form-group col-6 text-center">
 
@@ -257,27 +224,8 @@
                                                                         th:value="${role.id}"
                                                                         th:text="${role.toString()}"></option>
                                                             </select>
-
-
-
-
-
-
-
-
-
-
-
-
                                                         </div>
-
-
-
-
-
                                                     </form>
-
-
                                                 </div>
 
                                                 <!-- Футер модального окна DELETE -->
@@ -291,11 +239,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </td>
-
-
                             </tr>
                             </tbody>
                         </table>
@@ -349,8 +293,6 @@
                         </form>
 
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -385,23 +327,14 @@
                                     <td th:utext="${usera.age}">Age</td>
                                     <td th:utext="${usera.email}">E-mail</td>
                                     <td th:utext="${usera.roleToString()}"></td>
-
-
-
-
-
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-
-
-
                     </div>
                 </div>
-</div>
-
-</div>
+            </div>
+        </div>
     </div>
 </div>
 

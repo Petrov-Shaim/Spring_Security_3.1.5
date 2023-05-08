@@ -1,6 +1,6 @@
-package com.example.spring_security.dao;
+package com.example.spring_security.repositories;
 
-import com.example.spring_security.entity.Role;
+import com.example.spring_security.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

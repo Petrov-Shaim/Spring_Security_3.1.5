@@ -1,7 +1,7 @@
 package com.example.spring_security.init;
 
-import com.example.spring_security.entity.Role;
-import com.example.spring_security.entity.User;
+import com.example.spring_security.models.Role;
+import com.example.spring_security.models.User;
 import com.example.spring_security.service.RoleServiceImpl;
 import com.example.spring_security.service.UserService;
 import org.springframework.stereotype.Component;
@@ -30,15 +30,17 @@ public class DBinit {
 
         Set<Role> userRole = new HashSet<>();
         userRole.add(roleUser);
-        userRole.add(roleAdmin);
 
         roleService.saveRole(roleAdmin);
         roleService.saveRole(roleUser);
 
-        User admin = new User("admin", "admin", 25, "admin", "admin", adminRole);
-        User user = new User("user", "user", 27, "user", "user", userRole);
+        User admin = new User("admin", "admin", 25, "admin@mail.ru", "admin", adminRole);
+        User user = new User("user", "user", 27, "user@mail.ru", "user", userRole);
+        User tester = new User("test", "test", 32, "test@mail.ru", "test");
 
-        userService.update(admin);
+        tester.setRoles(adminRole);
+        userService.add(admin);
         userService.add(user);
+        userService.add(tester);
     }
 }

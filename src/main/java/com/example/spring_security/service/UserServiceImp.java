@@ -1,7 +1,7 @@
 package com.example.spring_security.service;
 
-import com.example.spring_security.dao.UserRepository;
-import com.example.spring_security.entity.User;
+import com.example.spring_security.repositories.UserRepository;
+import com.example.spring_security.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,15 +16,15 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
 
-
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository,@Lazy PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     @Override
     @Transactional
     public void add(User user) {
@@ -41,39 +41,21 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Transactional(readOnly = true)
     @Override
     public User show(int id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id).get();
     }
 
     @Transactional
     @Override
     public void update(User updatedUser) {
-
-        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        updatedUser.setPassword(passwordEncoder.encode(show(updatedUser.getId()).getPassword()));
         userRepository.save(updatedUser);
     }
 
     @Transactional
     @Override
     public void delete(int id) {
-
         userRepository.deleteById(id);
     }
-
-    @Override
-    @Transactional
-    public void updateUser(User updatedUser, int id) {
-        User existingUser = show(id);
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setLastname(updatedUser.getLastname());
-        existingUser.setAge(updatedUser.getAge());
-        existingUser.setRoles(updatedUser.getRoles());
-        if (!updatedUser.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        }
-        userRepository.save(existingUser);
-    }
-
 
     @Override
     @Transactional
@@ -82,14 +64,10 @@ public class UserServiceImp implements UserService, UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-
         return user;
     }
-
     @Override
     public User findUsersByEmail(String email) {
         return userRepository.findUsersByEmail(email);
     }
-
 }
-

@@ -1,4 +1,4 @@
-package com.example.spring_security.entity;
+package com.example.spring_security.models;
 
 
 import javax.persistence.*;
